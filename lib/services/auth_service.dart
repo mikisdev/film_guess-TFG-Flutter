@@ -58,7 +58,7 @@ class AuthService extends ChangeNotifier {
 
   //*Cerrar sesión
   Future logout() async {
-    _auth.signOut();
+    await _auth.signOut();
   }
 
   //Todo: Aún está sin usar
