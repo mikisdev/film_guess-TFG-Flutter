@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "627267856862",
+    "firebase_url": "https://flutter-tfg-3485d-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "flutter-tfg-3485d",
+    "storage_bucket": "flutter-tfg-3485d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627267856862:android:5cd62a3d44425bc114d54f",
+        "android_client_info": {
+          "package_name": "com.example.tfg_01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627267856862-ml7k2cth3pn2mn78qde7g940diim78qd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgyyly774FVNSJ8stDRVBLCNCyyznxB_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627267856862-ml7k2cth3pn2mn78qde7g940diim78qd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "627267856862-gcj5q95ieq8usgrait3d78098j61rv2e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tfg01.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627267856862:android:8ea638496a7386d514d54f",
+        "android_client_info": {
+          "package_name": "com.example.tfg_03"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627267856862-ml7k2cth3pn2mn78qde7g940diim78qd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgyyly774FVNSJ8stDRVBLCNCyyznxB_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627267856862-ml7k2cth3pn2mn78qde7g940diim78qd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "627267856862-gcj5q95ieq8usgrait3d78098j61rv2e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tfg01.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
