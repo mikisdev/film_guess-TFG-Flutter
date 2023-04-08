@@ -8,6 +8,15 @@ class SignUpFormProvider extends ChangeNotifier {
   String password = '';
   String repeatPassword = '';
 
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
   bool isValidForm() {
     return formKey.currentState?.validate() ?? false;
   }

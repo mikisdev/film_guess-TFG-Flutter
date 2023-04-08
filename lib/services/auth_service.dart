@@ -30,8 +30,8 @@ class AuthService extends ChangeNotifier {
 
       notifyListeners();
       return null;
-    } catch (e) {
-      return e.toString();
+    } on FirebaseAuthException catch (e) {
+      return e.code;
     }
   }
 
@@ -47,7 +47,7 @@ class AuthService extends ChangeNotifier {
       } else if (e.code == 'wrong-password') {
         print('Contraseña incorrecta.');
       }
-      return e.toString();
+      return e.code;
     }
   }
 
@@ -58,79 +58,18 @@ class AuthService extends ChangeNotifier {
 
   //*Cerrar sesión
   Future logout() async {
-    await storage.deleteAll();
+    _auth.signOut();
   }
 
-//   final String _baseUrl = 'identitytoolkit.googleapis.com';
-//   final String _firebase = 'AIzaSyAlHjFrjuHyRUcLfb6KcSIQY7k-ZJ7Yl5I';
-//   //* para guardar el idToken
-//   final storage = const FlutterSecureStorage();
-
-// //* Crear Usuario
-//   Future<String?> createUser(String email, String password) async {
-//     //*Creación del token
-//     final Map<String, dynamic> authData = {
-//       'email': email,
-//       'password': password,
-//       'returnSecureToken': true
-//     };
-
-//     final url = Uri.https(_baseUrl, 'v1/accounts:signUp', {'key': _firebase});
-
-//     final resp = await http.post(url, body: json.encode(authData));
-//     final Map<String, dynamic> decodeData = json.decode(resp.body);
-
-//     if (decodeData.containsKey('idToken')) {
-//       storage.write(key: 'idToken', value: decodeData['idToken']);
-
-//       print(decodeData['localId']);
-//       return null;
-//     } else {
-//       return decodeData['error']['message'];
-//     }
-//   }
-
-//   //*Iniciar sesión
-//   Future<String?> login(String email, String password) async {
-//     //*Creación del token
-//     final Map<String, dynamic> authData = {
-//       'email': email,
-//       'password': password,
-//       'returnSecureToken': true
-//     };
-
-//     final url = Uri.https(
-//         _baseUrl, 'v1/accounts:signInWithPassword', {'key': _firebase});
-
-//     final resp = await http.post(url, body: json.encode(authData));
-//     final Map<String, dynamic> decodeData = json.decode(resp.body);
-
-//     if (decodeData.containsKey('idToken')) {
-//       storage.write(key: 'idToken', value: decodeData['idToken']);
-//       storage.write(key: 'uid', value: decodeData['localId']);
-
-//       //Todo: borrar estas dos lineas
-//       final uid = await readUId();
-//       print(uid);
-
-//       return null;
-//     } else {
-//       return decodeData['error']['message'];
-//     }
-//   }
-
-//   //*Cerrar sesión
-//   Future logout() async {
-//     await storage.deleteAll();
-//   }
-
-//   //* Leer token
-//   Future<String> readToken() async {
-//     return await storage.read(key: 'idToken') ?? '';
-//   }
-
-//   //* Leer uId
-//   Future<String> readUId() async {
-//     return await storage.read(key: 'uid') ?? '';
-//   }
+  //Todo: Aún está sin usar
+  //* Borrar usuario
+  Future<void> deleteUser(String uid) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(uid).delete();
+      await _auth.currentUser?.delete();
+      await storage.deleteAll();
+    } catch (e) {
+      print(e);
+    }
+  }
 }

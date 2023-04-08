@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
       routes: Routes.routes,
       //* tema de la aplicación
       theme: AppTheme.lightTheme,
+      scaffoldMessengerKey: NotificationsService.messengerKey,
     );
   }
 }

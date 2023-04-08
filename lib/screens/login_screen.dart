@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tfg_03/controller/validations_controller.dart';
 import 'package:tfg_03/providers/providers.dart';
 import 'package:tfg_03/services/auth_service.dart';
+import 'package:tfg_03/services/services.dart';
 import 'package:tfg_03/themes/app_theme.dart';
 import 'package:tfg_03/widgets/widgets.dart';
 
@@ -89,25 +90,35 @@ class _Form extends StatelessWidget {
 
               //* Boton iniciar sesión
               ElevatedButton(
-                  onPressed: () async {
-                    if (!loginFormProvider.isValidForm()) return;
+                  onPressed: loginFormProvider.isLoading
+                      ? null
+                      : () async {
+                          FocusScope.of(context).unfocus();
 
-                    final authService =
-                        Provider.of<AuthService>(context, listen: false);
+                          final authService =
+                              Provider.of<AuthService>(context, listen: false);
 
-                    final String? errorMessage = await authService.signIn(
-                        loginFormProvider.email, loginFormProvider.password);
+                          if (!loginFormProvider.isValidForm()) return;
 
-                    if (errorMessage == null) {
-                      //*se inicia sesión
-                      Navigator.pushReplacementNamed(context, 'home');
-                    } else {
-                      //* error al iniciar sesión
-                      //Todo: Mostrar mensaje de error
-                      print(errorMessage);
-                    }
-                  },
-                  child: const Text('Iniciar Sesión')),
+                          loginFormProvider.isLoading = true;
+
+                          final String? errorMessage = await authService.signIn(
+                              loginFormProvider.email,
+                              loginFormProvider.password);
+
+                          if (errorMessage == null) {
+                            //*se inicia sesión
+                            Navigator.pushReplacementNamed(context, 'home');
+                          } else {
+                            loginFormProvider.isLoading = false;
+                            //* error al iniciar sesión
+                            NotificationsService.showSnackbar(errorMessage);
+                            print(errorMessage);
+                          }
+                        },
+                  child: Text(loginFormProvider.isLoading
+                      ? 'Espere...'
+                      : 'Iniciar Sesión')),
               const SizedBox(
                 height: 50,
               ),

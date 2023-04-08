@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tfg_03/controller/validations_controller.dart';
 import 'package:tfg_03/providers/providers.dart';
 import 'package:tfg_03/services/auth_service.dart';
+import 'package:tfg_03/services/services.dart';
 import 'package:tfg_03/themes/app_theme.dart';
 import 'package:tfg_03/widgets/widgets.dart';
 
@@ -130,26 +131,30 @@ class _Form extends StatelessWidget {
 
               //* Boton registrarse
               ElevatedButton(
-                  onPressed: () async {
-                    if (!signUpFormProvider.isValidForm()) return;
+                  onPressed: signUpFormProvider.isLoading
+                      ? null
+                      : () async {
+                          if (!signUpFormProvider.isValidForm()) return;
 
-                    final authService =
-                        Provider.of<AuthService>(context, listen: false);
-                    final String? errorMessage = await authService.signUp(
-                        email: signUpFormProvider.email,
-                        password: signUpFormProvider.password,
-                        name: signUpFormProvider.name);
+                          final authService =
+                              Provider.of<AuthService>(context, listen: false);
+                          final String? errorMessage = await authService.signUp(
+                              email: signUpFormProvider.email,
+                              password: signUpFormProvider.password,
+                              name: signUpFormProvider.name);
 
-                    if (errorMessage == null) {
-                      //* se ha creado el usuario
-                      Navigator.pushReplacementNamed(context, 'login');
-                    } else {
-                      //* error al registrar el usuario
-                      //Todo: Mostrar mensje de error
-                      print(errorMessage);
-                    }
-                  },
-                  child: const Text('Registrarse')),
+                          if (errorMessage == null) {
+                            //* se ha creado el usuario
+                            Navigator.pushReplacementNamed(context, 'login');
+                          } else {
+                            //* error al registrar el usuario
+                            NotificationsService.showSnackbar(errorMessage);
+                            print(errorMessage);
+                          }
+                        },
+                  child: Text(signUpFormProvider.isLoading
+                      ? 'Espere...'
+                      : 'Registrarse')),
               const SizedBox(
                 height: 30,
               ),
