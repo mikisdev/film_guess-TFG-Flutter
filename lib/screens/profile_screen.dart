@@ -124,6 +124,7 @@ class _CameraButton extends StatelessWidget {
   }
 }
 
+//* boton para guardar los cambios en firebase
 class _SaveButton extends StatelessWidget {
   const _SaveButton({
     required this.fireBaseService,
@@ -157,6 +158,7 @@ class _SaveButton extends StatelessWidget {
   }
 }
 
+//* Imagen de perfil
 class _Profile extends StatelessWidget {
   const _Profile();
 
@@ -177,10 +179,12 @@ class _Profile extends StatelessWidget {
             const SizedBox(
               height: 100,
             ),
+            //* si ha subido una imagen nueva
             if (userProvider.image != null)
               CircleAvatar(
                   maxRadius: 100,
                   backgroundImage: FileImage(userProvider.image!)),
+            //* la que ya tenia puesta en la base de datos
             if (userProvider.image == null)
               CircleAvatar(
                 maxRadius: 100,
@@ -198,6 +202,7 @@ class _Profile extends StatelessWidget {
   }
 }
 
+//* Formulario para cambiar el nombre 
 class _Form extends StatelessWidget {
   const _Form({
     required this.user,

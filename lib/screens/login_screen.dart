@@ -49,7 +49,6 @@ class _Form extends StatelessWidget {
           //* KEY
           key: loginFormProvider.formKey,
 
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

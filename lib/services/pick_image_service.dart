@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 
+//* FUENTE: https://www.youtube.com/watch?v=iAxgbE-a2SI&t=636s&ab_channel=C%C3%B3digoCorrecto
+
+//* para subir una imagen a firebase storage
 final FirebaseStorage storage = FirebaseStorage.instance;
 
+//* devuelve la url de la imagen que hemos subido
 Future<String?> uploadImage(File? image) async {
   if (image == null) return null;
 

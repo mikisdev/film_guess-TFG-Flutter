@@ -13,9 +13,6 @@ class UserProvider extends ChangeNotifier {
   UserProvider(this.name, this.pictureUrl);
 
   bool isvalidform() {
-    print(name);
-    print(pictureUrl);
-
     return formkey.currentState?.validate() ?? false;
   }
 
@@ -23,6 +20,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //* al crear un nuevo usuario se le crea sin foto por lo que se pone esta de forma automática
   get getPicture {
     if (pictureUrl != null) return pictureUrl;
 
