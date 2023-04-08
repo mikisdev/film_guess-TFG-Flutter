@@ -14,6 +14,15 @@ class HomeScreen extends StatelessWidget {
             'Game Guess',
             style: TextStyle(color: AppTheme.secondaryColor),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.search_outlined,
+                color: AppTheme.secondaryColor,
+              ),
+              onPressed: () {},
+            )
+          ],
         ),
         body: const Stack(
           children: [
