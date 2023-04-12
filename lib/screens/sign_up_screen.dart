@@ -148,7 +148,7 @@ class _Form extends StatelessWidget {
                             Navigator.pushReplacementNamed(context, 'login');
                           } else {
                             //* error al registrar el usuario
-                            NotificationsService.showSnackbar(errorMessage);
+                            NotificationsService.showSnackbar(errorMessage, Colors.red);
                             print(errorMessage);
                           }
                         },

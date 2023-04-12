@@ -2,12 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class FireBaseService extends ChangeNotifier {
-  Future updateUser(Future<String> uid, String name, String picture) async {
+  Future updatePictureAndName(
+      Future<String> uid, String name, String picture) async {
     final id = await uid;
     await db
         .collection('users')
         .doc(id)
         .update({'name': name, 'picture': picture});
+  }
+
+  Future updateName(Future<String> uid, String name) async {
+    final id = await uid;
+    await db.collection('users').doc(id).update({'name': name});
   }
 }
 

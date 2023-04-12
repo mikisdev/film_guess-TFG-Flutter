@@ -112,7 +112,8 @@ class _Form extends StatelessWidget {
                           } else {
                             loginFormProvider.isLoading = false;
                             //* error al iniciar sesión
-                            NotificationsService.showSnackbar(errorMessage);
+                            NotificationsService.showSnackbar(
+                                errorMessage, Colors.red);
                             print(errorMessage);
                           }
                         },

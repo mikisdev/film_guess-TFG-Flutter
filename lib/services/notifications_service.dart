@@ -6,9 +6,9 @@ class NotificationsService {
   static GlobalKey<ScaffoldMessengerState> messengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
-  static showSnackbar(String message) {
+  static showSnackbar(String message, Color color) {
     final snackBar = SnackBar(
-        backgroundColor: Colors.red,
+        backgroundColor: color,
         elevation: 10,
         content: Text(
           _message(message),

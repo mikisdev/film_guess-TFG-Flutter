@@ -142,13 +142,17 @@ class _SaveButton extends StatelessWidget {
       onPressed: () async {
         if (!userProvider.isvalidform()) return;
 
-        uploadImage(userProvider.image)
-            .then((url) => userProvider.pictureUrl = url);
-        print('URL ${uploadImage(userProvider.image)}');
-        print(userProvider.pictureUrl);
-        print(userProvider.name);
-        await fireBaseService.updateUser(
-            authService.readUId(), userProvider.name, userProvider.getPicture);
+        final String? imageUrl = await uploadImage(userProvider.image);
+
+        if (imageUrl != null) {
+          userProvider.pictureUrl = imageUrl;
+          await fireBaseService.updatePictureAndName(authService.readUId(),
+              userProvider.name, userProvider.pictureUrl);
+        } else {
+          await fireBaseService.updateName(
+              authService.readUId(), userProvider.name);
+        }
+        NotificationsService.showSnackbar('Datos guardados', Colors.blue);
       },
       child: const Icon(
         Icons.save_outlined,
@@ -202,7 +206,7 @@ class _Profile extends StatelessWidget {
   }
 }
 
-//* Formulario para cambiar el nombre 
+//* Formulario para cambiar el nombre
 class _Form extends StatelessWidget {
   const _Form({
     required this.user,
