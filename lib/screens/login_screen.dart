@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:tfg_03/controller/validations_controller.dart';
 import 'package:tfg_03/providers/providers.dart';
-import 'package:tfg_03/services/auth_service.dart';
 import 'package:tfg_03/services/services.dart';
 import 'package:tfg_03/themes/app_theme.dart';
 import 'package:tfg_03/widgets/widgets.dart';
@@ -35,9 +34,7 @@ class LoginScreen extends StatelessWidget {
 
 //*Widget del formulario
 class _Form extends StatelessWidget {
-  const _Form({
-    super.key,
-  });
+  const _Form();
 
   @override
   Widget build(BuildContext context) {
@@ -102,20 +99,28 @@ class _Form extends StatelessWidget {
 
                           loginFormProvider.isLoading = true;
 
-                          final String? errorMessage = await authService.signIn(
-                              loginFormProvider.email,
-                              loginFormProvider.password);
-
-                          if (errorMessage == null) {
-                            //*se inicia sesión
-                            Navigator.pushReplacementNamed(context, 'home');
-                          } else {
-                            loginFormProvider.isLoading = false;
+                          final String? errorMessage = await authService
+                              .signIn(loginFormProvider.email,
+                                  loginFormProvider.password)
+                              .then((errorMessage) {
+                            if (errorMessage == null) {
+                              //*se inicia sesión
+                              Navigator.pushReplacementNamed(context, 'home');
+                            } else {
+                              //* error al iniciar sesión
+                              NotificationsService.showSnackbar(
+                                  errorMessage, Colors.red);
+                              loginFormProvider.isLoading = false;
+                            }
+                            return null;
+                          });
+                          if (errorMessage != null) {
                             //* error al iniciar sesión
                             NotificationsService.showSnackbar(
                                 errorMessage, Colors.red);
-                            print(errorMessage);
+                            loginFormProvider.isLoading = false;
                           }
+                          loginFormProvider.isLoading = false;
                         },
                   child: Text(loginFormProvider.isLoading
                       ? 'Espere...'

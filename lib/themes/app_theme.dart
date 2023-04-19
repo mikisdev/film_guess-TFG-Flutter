@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   //* Color primario de la app
@@ -9,6 +10,8 @@ class AppTheme {
 
   //* tema modo claro
   static final ThemeData lightTheme = ThemeData.light().copyWith(
+      //* Tipografia
+      textTheme: GoogleFonts.lilitaOneTextTheme().copyWith(),
 
       //* AppBar
       appBarTheme: const AppBarTheme(

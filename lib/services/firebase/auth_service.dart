@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 //* FUENTE: https://firebase.google.com/docs/reference/rest/auth?hl=es-419#section-create-email-password
 class AuthService extends ChangeNotifier {
+  //* Imagen de perfil predefinida
   final pictureUrl =
       'https://steamuserimages-a.akamaihd.net/ugc/795369537926935378/0BA040D30C76B548DD0F9787912948C10D952164/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false';
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -58,6 +59,7 @@ class AuthService extends ChangeNotifier {
 
   //*Cerrar sesión
   Future logout() async {
+    await storage.deleteAll();
     await _auth.signOut();
   }
 
@@ -71,5 +73,9 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  void notifyListener() {
+    notifyListeners();
   }
 }

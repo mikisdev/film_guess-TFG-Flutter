@@ -11,7 +11,8 @@ class Routes {
     'sign_up': (BuildContext context) => const SignUpScreen(),
     'home': (BuildContext context) => const HomeScreen(),
     'favorites': (BuildContext context) => const FavoritesScreen(),
-    'details': (BuildContext context) => const FavoritesScreen(),
+    'details': (BuildContext context) => const DetailsScreen(),
     'profile': (BuildContext context) => const ProfileScreen(),
+    'game': (BuildContext context) => const GameScreen(),
   };
 }

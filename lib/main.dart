@@ -27,6 +27,9 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => LoginFormProvider()),
         ChangeNotifierProvider(create: (_) => FireBaseService()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => MovieService()),
+        ChangeNotifierProvider(create: (_) => FavoriteMovieService()),
       ],
       child: const MyApp(),
     );

@@ -36,16 +36,18 @@ dependencies:
   firebase_storage: ^11.1.0
   flutter:
     sdk: flutter
+  flutter_blurhash: ^0.7.0
   flutter_secure_storage: ^8.0.0
+  google_fonts: ^4.0.3
   http: ^0.13.5
   image_picker: ^0.8.7+1
   provider: ^6.0.5
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.0
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.0
 
 flutter_icons:
   android: "launcher_icon"

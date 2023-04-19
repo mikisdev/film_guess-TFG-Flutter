@@ -17,57 +17,43 @@ class ProfileScreen extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
     final fireBaseService = Provider.of<FireBaseService>(context);
 
-    return FutureBuilder(
-      future: getUserData(authService.readUId()),
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        if (!snapshot.hasData) return Container();
+    return Scaffold(
+      body: const Stack(
+        children: [
+          BackGround(),
 
-        final user = snapshot.data;
-        return MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-                create: (_) => UserProvider(user['name'], user['picture']))
-          ],
-          child: Scaffold(
-            body: const Stack(
-              children: [
-                BackGround(),
-
-                //* Seleccionar foto con cámara
-                Positioned(
-                  top: 280,
-                  left: 100,
-                  child: _CameraButton(),
-                ),
-
-                //* Seleccionar imagen de la galería
-                Positioned(
-                  top: 280,
-                  right: 100,
-                  child: _GalleryButton(),
-                ),
-                _Profile()
-              ],
-            ),
-
-            //*Botón de guardar
-            floatingActionButton: _SaveButton(
-                fireBaseService: fireBaseService, authService: authService),
+          //* Seleccionar foto con cámara
+          Positioned(
+            top: 280,
+            left: 100,
+            child: _CameraButton(),
           ),
-        );
-      },
+
+          //* Seleccionar imagen de la galería
+          Positioned(
+            top: 280,
+            right: 100,
+            child: _GalleryButton(),
+          ),
+          _Profile()
+        ],
+      ),
+
+      //*Botón de guardar
+      floatingActionButton: _SaveButton(
+          fireBaseService: fireBaseService, authService: authService),
     );
   }
 }
 
 class _GalleryButton extends StatelessWidget {
-  const _GalleryButton({
-    super.key,
-  });
+  const _GalleryButton();
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final authService = Provider.of<AuthService>(context);
+
     return IconButton(
         onPressed: () async {
           final picker = ImagePicker();
@@ -84,7 +70,7 @@ class _GalleryButton extends StatelessWidget {
 
           userProvider.image = File(pickedFile.path);
           print(userProvider.image);
-          userProvider.notifyListener();
+          authService.notifyListener();
         },
         icon: const Icon(
           Icons.photo_outlined,
@@ -94,7 +80,7 @@ class _GalleryButton extends StatelessWidget {
 }
 
 class _CameraButton extends StatelessWidget {
-  const _CameraButton({super.key});
+  const _CameraButton();
 
   @override
   Widget build(BuildContext context) {
@@ -147,11 +133,12 @@ class _SaveButton extends StatelessWidget {
         if (imageUrl != null) {
           userProvider.pictureUrl = imageUrl;
           await fireBaseService.updatePictureAndName(authService.readUId(),
-              userProvider.name, userProvider.pictureUrl);
+              userProvider.name!, userProvider.pictureUrl!);
         } else {
           await fireBaseService.updateName(
-              authService.readUId(), userProvider.name);
+              authService.readUId(), userProvider.name!);
         }
+        userProvider.notifyListener();
         NotificationsService.showSnackbar('Datos guardados', Colors.blue);
       },
       child: const Icon(

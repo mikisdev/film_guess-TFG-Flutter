@@ -1,3 +1,4 @@
+export 'package:tfg_03/screens/game_screen.dart';
 export 'package:tfg_03/screens/profile_screen.dart';
 export 'package:tfg_03/screens/details_screen.dart';
 export 'package:tfg_03/screens/favorites_screen.dart';

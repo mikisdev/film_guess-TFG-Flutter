@@ -1,3 +1,4 @@
+export 'package:tfg_03/widgets/casting_card.dart';
 export 'package:tfg_03/widgets/card_container.dart';
 export 'package:tfg_03/widgets/card_swiper.dart';
 export 'package:tfg_03/widgets/header_logo.dart';

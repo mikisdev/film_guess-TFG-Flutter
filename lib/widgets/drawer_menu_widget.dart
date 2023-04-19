@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tfg_03/services/auth_service.dart';
-import 'package:tfg_03/services/firebase_service.dart';
+import 'package:tfg_03/services/firebase/auth_service.dart';
+import 'package:tfg_03/services/firebase/firebase_service.dart';
 import 'package:tfg_03/themes/app_theme.dart';
 import 'package:tfg_03/widgets/header_logo.dart';
 
@@ -23,7 +23,7 @@ class DrawerMenu extends StatelessWidget {
       ],
     ));
 
-    final authService = Provider.of<AuthService>(context, listen: false);
+    final authService = Provider.of<AuthService>(context);
 
     return FutureBuilder(
         future: getUserData(authService.readUId()),
@@ -33,7 +33,7 @@ class DrawerMenu extends StatelessWidget {
           final user = snapshot.data!;
           return _Drawer(
               boxDecoration: boxDecoration,
-              user: user['name'],
+              user: user['email'],
               authService: authService);
         });
     //child: _Drawer(boxDecoration: boxDecoration, loginFormProvider: loginFormProvider, authService: authService));
@@ -42,7 +42,6 @@ class DrawerMenu extends StatelessWidget {
 
 class _Drawer extends StatefulWidget {
   const _Drawer({
-    super.key,
     required this.boxDecoration,
     required this.user,
     required this.authService,
@@ -87,12 +86,6 @@ class _DrawerState extends State<_Drawer> {
                   setState(() {});
                 }),
 
-            //*HOME
-            _MenuItem(
-              text: 'Home',
-              onTap: () => Navigator.pushNamed(context, 'home'),
-            ),
-
             //* JUEGOS FAVORITOS
             _MenuItem(
               text: 'Juegos favoritos',
@@ -123,7 +116,6 @@ class _MenuItem extends StatelessWidget {
   final AlignmentGeometry? aligment;
   final Color? color;
   const _MenuItem({
-    super.key,
     required this.text,
     required this.onTap,
     this.aligment,
