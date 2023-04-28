@@ -21,8 +21,6 @@ class MovieService extends ChangeNotifier {
 
   MovieService() {
     getOnDisplayMovie();
-    getPopularMovie();
-    getRandomMovie();
   }
 
   Future<String> _getJasonData(String endPoint, [int page = 1]) async {
@@ -43,21 +41,6 @@ class MovieService extends ChangeNotifier {
       onDisplayMovies = nowPlayingResponse.results;
       notifyListeners();
     } catch (e) {
-      NotificationsService.showSnackbar('Error de conexión', Colors.red);
-    }
-  }
-
-  //* Obtenemos una lista de peliculas populares
-  getPopularMovie() async {
-    try {
-      final jsonData = await _getJasonData('3/movie/popular', 1);
-
-      final popularMoviesResponse = PopularResponse.fromRawJson(jsonData);
-
-      popularMovies = Queue.from(popularMoviesResponse.results);
-      notifyListeners();
-    } catch (e) {
-      print(e);
       NotificationsService.showSnackbar('Error de conexión', Colors.red);
     }
   }
@@ -107,10 +90,11 @@ class MovieService extends ChangeNotifier {
     notifyListeners();
   }
 
+  //* Para generar una pelicula aleatoria
   Future<Movie?> getRandomMovie() async {
     int randomPage;
     int randomIndex;
-    var jsonData;
+    String jsonData;
     List<Movie> movies;
     Movie movie;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tfg_03/models/models.dart';
+import 'package:tfg_03/themes/app_theme.dart';
 
 class LostScreen extends StatelessWidget {
   const LostScreen({super.key});
@@ -19,6 +20,22 @@ class LostScreen extends StatelessWidget {
             ),
             _PosterImage(
               poster: movie.fullPosterImage,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Text(
+                movie.title,
+                style: const TextStyle(
+                  color: AppTheme.secondaryColor,
+                  fontSize: 20,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
             const SizedBox(
               height: 50,

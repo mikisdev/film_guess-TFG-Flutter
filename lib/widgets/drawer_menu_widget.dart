@@ -81,7 +81,7 @@ class _Drawer extends StatelessWidget {
 
             //* JUEGOS FAVORITOS
             _MenuItem(
-              text: 'Juegos favoritos',
+              text: 'Peliculas favoritas',
               onTap: () => Navigator.pushNamed(context, 'favorites'),
             ),
 

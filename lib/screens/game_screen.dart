@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tfg_03/models/models.dart';
@@ -122,11 +123,7 @@ class _Form extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Column(
               children: [
-                TextFormField(
-                  textCapitalization: TextCapitalization.words,
-                  onChanged: (value) => guessGameProvider.guess = value,
-                  style: const TextStyle(color: AppTheme.secondaryColor),
-                ),
+                _TypeAheadForm(guessGameProvider: guessGameProvider),
                 const SizedBox(
                   height: 30,
                 ),
@@ -149,6 +146,13 @@ class _Form extends StatelessWidget {
                           bool win;
                           bool lost;
                           if (!guessGameProvider.isValidForm()) return;
+
+                          guessGameProvider.guess =
+                              guessGameProvider.guess.toLowerCase();
+
+                          guessGameProvider.movie =
+                              guessGameProvider.movie.toLowerCase();
+
                           guessGameProvider.isFail();
 
                           win = guessGameProvider.win;
@@ -171,5 +175,53 @@ class _Form extends StatelessWidget {
                         )))
               ],
             )));
+  }
+}
+
+class _TypeAheadForm extends StatefulWidget {
+  const _TypeAheadForm({
+    super.key,
+    required this.guessGameProvider,
+  });
+
+  final GuessGameProvider guessGameProvider;
+
+  @override
+  State<_TypeAheadForm> createState() => _TypeAheadFormState();
+}
+
+class _TypeAheadFormState extends State<_TypeAheadForm> {
+  @override
+  Widget build(BuildContext context) {
+    final movieService = Provider.of<MovieService>(context);
+    final TextEditingController typeAheadController = TextEditingController();
+    return TypeAheadFormField(
+      textFieldConfiguration: TextFieldConfiguration(
+          controller: typeAheadController,
+          onChanged: (value) => widget.guessGameProvider.guess = value,
+          style: const TextStyle(color: AppTheme.secondaryColor)),
+      onSuggestionSelected: (Movie movie) {
+        // Actualiza el valor del controlador de texto con el título de la película seleccionada
+        widget.guessGameProvider.guess = movie.title;
+        typeAheadController.text = movie.title;
+        print('Película seleccionada: ${movie.title}');
+      },
+      itemBuilder: (BuildContext context, Movie movie) {
+        return ListTile(
+          title: Text(
+            movie.title,
+          ),
+        );
+      },
+      suggestionsCallback: (query) => movieService.searchMovie(query),
+      hideSuggestionsOnKeyboardHide: false,
+      suggestionsBoxDecoration: const SuggestionsBoxDecoration(
+          color: Colors.deepPurple,
+          elevation: 4.0,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )),
+    );
   }
 }

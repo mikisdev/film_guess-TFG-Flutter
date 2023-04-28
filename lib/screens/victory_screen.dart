@@ -22,6 +22,22 @@ class VictoryScreen extends StatelessWidget {
               poster: movie.fullPosterImage,
             ),
             const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Text(
+                movie.title,
+                style: const TextStyle(
+                  color: AppTheme.secondaryColor,
+                  fontSize: 20,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
               height: 50,
             ),
             const Text(
