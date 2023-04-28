@@ -14,5 +14,7 @@ class Routes {
     'details': (BuildContext context) => const DetailsScreen(),
     'profile': (BuildContext context) => const ProfileScreen(),
     'game': (BuildContext context) => const GameScreen(),
+    'victory': (BuildContext context) => const VictoryScreen(),
+    'lost': (BuildContext context) => const LostScreen(),
   };
 }

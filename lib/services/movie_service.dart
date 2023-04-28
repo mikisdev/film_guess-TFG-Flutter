@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,11 +13,16 @@ class MovieService extends ChangeNotifier {
   final String _apiKey = '1a0efb7c0bd15a465d108a01c212b74c';
   final String _language = 'es-ES';
 
+  int page = 1;
+
   List<Movie> onDisplayMovies = [];
+  Queue<Movie> popularMovies = Queue<Movie>();
   Map<int, List<Cast>> movieCast = {};
 
   MovieService() {
     getOnDisplayMovie();
+    getPopularMovie();
+    getRandomMovie();
   }
 
   Future<String> _getJasonData(String endPoint, [int page = 1]) async {
@@ -35,6 +43,21 @@ class MovieService extends ChangeNotifier {
       onDisplayMovies = nowPlayingResponse.results;
       notifyListeners();
     } catch (e) {
+      NotificationsService.showSnackbar('Error de conexión', Colors.red);
+    }
+  }
+
+  //* Obtenemos una lista de peliculas populares
+  getPopularMovie() async {
+    try {
+      final jsonData = await _getJasonData('3/movie/popular', 1);
+
+      final popularMoviesResponse = PopularResponse.fromRawJson(jsonData);
+
+      popularMovies = Queue.from(popularMoviesResponse.results);
+      notifyListeners();
+    } catch (e) {
+      print(e);
       NotificationsService.showSnackbar('Error de conexión', Colors.red);
     }
   }
@@ -63,6 +86,7 @@ class MovieService extends ChangeNotifier {
     return searchResponse.results;
   }
 
+  //* Para obtener una pelicula por id
   Future<Movie?> getMovieById(String id) async {
     try {
       final url = Uri.https(
@@ -76,5 +100,35 @@ class MovieService extends ChangeNotifier {
       print(e);
       return null;
     }
+  }
+
+  void nextPage() {
+    page++;
+    notifyListeners();
+  }
+
+  Future<Movie?> getRandomMovie() async {
+    int randomPage;
+    int randomIndex;
+    var jsonData;
+    List<Movie> movies;
+    Movie movie;
+
+    do {
+      randomPage = 1 + Random().nextInt(100);
+      jsonData = await _getJasonData('3/movie/popular', randomPage);
+
+      var popularMoviesResponse = PopularResponse.fromRawJson(jsonData);
+
+      movies = popularMoviesResponse.results;
+
+      randomIndex = 1 + Random().nextInt(movies.length);
+
+      movie = movies[randomIndex - 1];
+    } while (movie.posterPath == null);
+
+    print('RANDOM ${movie.title}');
+
+    return movie;
   }
 }

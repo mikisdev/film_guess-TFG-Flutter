@@ -40,27 +40,21 @@ class DrawerMenu extends StatelessWidget {
   }
 }
 
-class _Drawer extends StatefulWidget {
-  const _Drawer({
-    required this.boxDecoration,
-    required this.user,
-    required this.authService,
-  });
-
+class _Drawer extends StatelessWidget {
   final BoxDecoration boxDecoration;
   final String user;
   final AuthService authService;
+  const _Drawer(
+      {super.key,
+      required this.boxDecoration,
+      required this.user,
+      required this.authService});
 
-  @override
-  State<_Drawer> createState() => _DrawerState();
-}
-
-class _DrawerState extends State<_Drawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        decoration: widget.boxDecoration,
+        decoration: boxDecoration,
         child: Column(
           children: [
             const HeaderLogo(
@@ -70,7 +64,7 @@ class _DrawerState extends State<_Drawer> {
 
             //* Usuario
             Text(
-              widget.user,
+              user,
               style:
                   const TextStyle(color: AppTheme.secondaryColor, fontSize: 18),
             ),
@@ -83,7 +77,6 @@ class _DrawerState extends State<_Drawer> {
                 text: 'Perfil',
                 onTap: () async {
                   await Navigator.pushNamed(context, 'profile');
-                  setState(() {});
                 }),
 
             //* JUEGOS FAVORITOS
@@ -99,7 +92,7 @@ class _DrawerState extends State<_Drawer> {
               aligment: Alignment.center,
               color: Colors.black45,
               onTap: () {
-                widget.authService.logout();
+                authService.logout();
                 Navigator.pushReplacementNamed(context, 'login');
               },
             )

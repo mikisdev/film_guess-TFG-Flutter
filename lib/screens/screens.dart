@@ -1,3 +1,5 @@
+export 'package:tfg_03/screens/lost_screen.dart';
+export 'package:tfg_03/screens/victory_screen.dart';
 export 'package:tfg_03/screens/game_screen.dart';
 export 'package:tfg_03/screens/profile_screen.dart';
 export 'package:tfg_03/screens/details_screen.dart';

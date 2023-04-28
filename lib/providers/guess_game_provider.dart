@@ -5,6 +5,7 @@ class GuessGameProvider extends ChangeNotifier {
   String guess = '';
   double sigma = 26;
   bool win = false;
+  bool lost = false;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -12,23 +13,19 @@ class GuessGameProvider extends ChangeNotifier {
     return formKey.currentState?.validate() ?? false;
   }
 
-  bool isFail() {
+  void isFail() {
     if (guess != movie) {
       if (sigma > 6) {
         sigma -= 5;
-        win = false;
         notifyListeners();
-        return win;
       } else {
-        win = false;
+        lost = true;
         notifyListeners();
-        return win;
       }
     } else {
       print('HAS ACERTADO');
       win = true;
       notifyListeners();
-      return win;
     }
   }
 }
