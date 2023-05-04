@@ -15,6 +15,11 @@ class FireBaseService extends ChangeNotifier {
     final id = await uid;
     await db.collection('users').doc(id).update({'name': name});
   }
+
+  Future updatePicture(Future<String> uid, String picture) async {
+    final id = await uid;
+    await db.collection('users').doc(id).update({'picture': picture});
+  }
 }
 
 FirebaseFirestore db = FirebaseFirestore.instance;

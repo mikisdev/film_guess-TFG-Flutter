@@ -130,13 +130,18 @@ class _SaveButton extends StatelessWidget {
 
         final String? imageUrl = await uploadImage(userProvider.image);
 
-        if (imageUrl != null) {
+        if (imageUrl == null && userProvider.name != null) {
+          await fireBaseService.updateName(
+              authService.readUId(), userProvider.name!);
+        }
+        if (userProvider.name == null && imageUrl != null) {
+          userProvider.pictureUrl = imageUrl;
+          await fireBaseService.updatePicture(
+              authService.readUId(), userProvider.pictureUrl!);
+        } else {
           userProvider.pictureUrl = imageUrl;
           await fireBaseService.updatePictureAndName(authService.readUId(),
               userProvider.name!, userProvider.pictureUrl!);
-        } else {
-          await fireBaseService.updateName(
-              authService.readUId(), userProvider.name!);
         }
         userProvider.notifyListener();
         NotificationsService.showSnackbar('Datos guardados', Colors.blue);

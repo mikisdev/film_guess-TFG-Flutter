@@ -19,7 +19,7 @@ class LostScreen extends StatelessWidget {
               height: 50,
             ),
             _PosterImage(
-              poster: movie.fullPosterImage,
+              movie: movie,
             ),
             const SizedBox(
               height: 10,
@@ -71,23 +71,27 @@ class LostScreen extends StatelessWidget {
 }
 
 class _PosterImage extends StatelessWidget {
-  final String poster;
+  final Movie movie;
+
   const _PosterImage({
     super.key,
-    required this.poster,
+    required this.movie,
   });
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Center(
-      child: SizedBox(
-        height: size.height * 0.5,
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: FadeInImage(
-                placeholder: const AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(poster))),
+      child: GestureDetector(
+        onTap: () => Navigator.pushNamed(context, 'details', arguments: movie),
+        child: SizedBox(
+          height: size.height * 0.5,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: FadeInImage(
+                  placeholder: const AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage(movie.fullPosterImage))),
+        ),
       ),
     );
   }
