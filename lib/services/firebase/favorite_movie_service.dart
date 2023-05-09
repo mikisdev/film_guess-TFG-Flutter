@@ -57,7 +57,6 @@ class FavoriteMovieService extends ChangeNotifier {
       });
 
       print('AAAA $movieListId');
-      notifyListeners();
       return movieListId;
     } catch (e) {
       print(e);

@@ -40,7 +40,7 @@ class CastingCard extends StatelessWidget {
         return Container(
             margin: const EdgeInsets.only(bottom: 30),
             width: double.infinity,
-            height: 180,
+            height: 200,
             child: ListView.builder(
                 itemCount: _castlenght(cast.length),
                 scrollDirection: Axis.horizontal,
@@ -85,6 +85,14 @@ class _CastCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: const TextStyle(color: AppTheme.secondaryColor),
+          ),
+          Text(
+            (actor.character != null) ? actor.character! : '',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style:
+                const TextStyle(color: AppTheme.secondaryColor, fontSize: 12),
           ),
         ],
       ),

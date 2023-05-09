@@ -179,12 +179,14 @@ class _Profile extends StatelessWidget {
             if (userProvider.image != null)
               CircleAvatar(
                   maxRadius: 100,
-                  backgroundImage: FileImage(userProvider.image!)),
+                  backgroundImage: const AssetImage('assets/no-image.jpg'),
+                  foregroundImage: FileImage(userProvider.image!)),
             //* la que ya tenia puesta en la base de datos
             if (userProvider.image == null)
               CircleAvatar(
                 maxRadius: 100,
-                backgroundImage: NetworkImage(user['picture']),
+                backgroundImage: const AssetImage('assets/no-image.jpg'),
+                foregroundImage: NetworkImage(user['picture']),
               ),
             const SizedBox(
               height: 40,
