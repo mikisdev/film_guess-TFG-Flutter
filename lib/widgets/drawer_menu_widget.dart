@@ -61,7 +61,9 @@ class _Drawer extends StatelessWidget {
               height: 170,
               width: 220,
             ),
-
+            const SizedBox(
+              height: 10,
+            ),
             //* Usuario
             Text(
               user,

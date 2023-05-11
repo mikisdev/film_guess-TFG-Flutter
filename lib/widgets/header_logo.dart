@@ -16,7 +16,7 @@ class HeaderLogo extends StatelessWidget {
       margin: const EdgeInsets.only(top: 60),
       width: double.infinity,
       child: Image(
-        image: const AssetImage('assets/logo.png'),
+        image: const AssetImage('assets/logo.PNG'),
         width: width,
         height: height,
       ),
