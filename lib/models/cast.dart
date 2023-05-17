@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+//* Modelo para el reparto de las peliculas
 class Cast {
   Cast({
     required this.adult,
