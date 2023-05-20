@@ -10,6 +10,16 @@ class UserProvider extends ChangeNotifier {
 
   File? image;
 
+  bool _isKeyboardVisible = false;
+
+  bool get isKeyboardVisible {
+    return _isKeyboardVisible;
+  }
+
+  set isKeyboardVisible(bool value) {
+    _isKeyboardVisible = value;
+    notifyListeners();
+  }
 
   bool isvalidform() {
     return formkey.currentState?.validate() ?? false;

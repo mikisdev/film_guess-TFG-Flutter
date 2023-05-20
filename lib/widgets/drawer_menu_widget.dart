@@ -36,7 +36,6 @@ class DrawerMenu extends StatelessWidget {
               user: user['email'],
               authService: authService);
         });
-    //child: _Drawer(boxDecoration: boxDecoration, loginFormProvider: loginFormProvider, authService: authService));
   }
 }
 

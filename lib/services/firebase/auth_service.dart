@@ -65,9 +65,12 @@ class AuthService extends ChangeNotifier {
 
   //Todo: Aún está sin usar
   //* Borrar usuario
-  Future<void> deleteUser(String uid) async {
+  Future<void> deleteUser() async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(uid).delete();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_auth.currentUser?.uid)
+          .delete();
       await _auth.currentUser?.delete();
       await storage.deleteAll();
     } catch (e) {

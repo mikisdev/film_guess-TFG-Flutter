@@ -106,6 +106,7 @@ class _Backgorund extends StatelessWidget {
   }
 }
 
+//* Formo donde adivinaremos la película
 class _Form extends StatelessWidget {
   final Movie movie;
   const _Form({
@@ -178,6 +179,7 @@ class _Form extends StatelessWidget {
   }
 }
 
+//* Sugerencias según vas escribiendo
 class _TypeAheadForm extends StatefulWidget {
   const _TypeAheadForm({
     super.key,

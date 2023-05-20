@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -13,16 +12,14 @@ class MovieService extends ChangeNotifier {
   final String _apiKey = '1a0efb7c0bd15a465d108a01c212b74c';
   final String _language = 'es-ES';
 
-  int page = 1;
-
   List<Movie> onDisplayMovies = [];
-  Queue<Movie> popularMovies = Queue<Movie>();
   Map<int, List<Cast>> movieCast = {};
 
   MovieService() {
     getOnDisplayMovie();
   }
 
+  //* Response body que recibo de la api
   Future<String> _getJasonData(String endPoint, [int page = 1]) async {
     final url = Uri.https(_baseUrl, endPoint,
         {'api_key': _apiKey, 'language': _language, 'page': '$page'});
@@ -83,11 +80,6 @@ class MovieService extends ChangeNotifier {
       print(e);
       return null;
     }
-  }
-
-  void nextPage() {
-    page++;
-    notifyListeners();
   }
 
   //* Para generar una pelicula aleatoria

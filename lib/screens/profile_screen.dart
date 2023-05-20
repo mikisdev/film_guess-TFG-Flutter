@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -18,27 +19,35 @@ class ProfileScreen extends StatelessWidget {
     final fireBaseService = Provider.of<FireBaseService>(context);
 
     return Scaffold(
-      body: const Stack(
+      body: Stack(
         children: [
-          BackGround(),
+          const BackGround(),
 
           //* Seleccionar foto con cámara
-          Positioned(
+          const Positioned(
             top: 280,
             left: 100,
             child: _CameraButton(),
           ),
 
           //* Seleccionar imagen de la galería
-          Positioned(
+          const Positioned(
             top: 280,
             right: 100,
             child: _GalleryButton(),
           ),
-          _Profile()
+
+          const _Profile(),
+
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: const EdgeInsets.only(bottom: 20),
+            child: _DeleteAccount(
+              authService: authService,
+            ),
+          )
         ],
       ),
-
       //*Botón de guardar
       floatingActionButton: _SaveButton(
           fireBaseService: fireBaseService, authService: authService),
@@ -46,6 +55,7 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
+//* Icono para acceder a la galeria
 class _GalleryButton extends StatelessWidget {
   const _GalleryButton();
 
@@ -79,6 +89,7 @@ class _GalleryButton extends StatelessWidget {
   }
 }
 
+//* Icono para acceder a lac ámara
 class _CameraButton extends StatelessWidget {
   const _CameraButton();
 
@@ -192,11 +203,127 @@ class _Profile extends StatelessWidget {
               height: 40,
             ),
             _Form(user: user),
+            const SizedBox(
+              height: 40,
+            ),
+
             Expanded(child: Container())
           ],
         );
       },
     );
+  }
+}
+
+//* Botón para eliminar la cuenta
+class _DeleteAccount extends StatelessWidget {
+  final AuthService authService;
+
+  const _DeleteAccount({
+    super.key,
+    required this.authService,
+  });
+
+  //*Metodo para cuando se use un dispositivo ios
+  void displayDialogIOS(BuildContext context) {
+    showCupertinoDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text('Eliminar cuenta'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                    'La cuenta se eliminará de forma permanente, ¿estás seguro de que quieres hacerlo?'),
+                SizedBox(height: 20),
+                Image(
+                  image: AssetImage('assets/icon.PNG'),
+                  height: 100,
+                )
+              ],
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancelar')),
+              TextButton(
+                  onPressed: () async {
+                    await authService.deleteUser().then((value) {
+                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, 'login');
+                    });
+                  },
+                  child: const Text(
+                    'Eliminar',
+                    style: TextStyle(color: Colors.red),
+                  )),
+            ],
+          );
+        });
+  }
+
+  //*Metodo para cuando se use un dispositivo Andorid
+  void displayDialogAndroid(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 5,
+            title: const Text('Eliminar cuenta'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                    'La cuenta se eliminará de forma permanente, ¿estás seguro de que quieres hacerlo?'),
+                SizedBox(height: 20),
+                Image(
+                  image: AssetImage('assets/icon.PNG'),
+                  height: 100,
+                )
+              ],
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    await authService.deleteUser().then((value) {
+                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, 'login');
+                    });
+                  },
+                  child: const Text('Eliminar',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ))),
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancelar'))
+            ],
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: const MaterialStatePropertyAll<Color>(
+              Color.fromARGB(255, 193, 25, 13)),
+          elevation: MaterialStateProperty.all<double>(8),
+          shadowColor: MaterialStateProperty.all<Color>(
+              const Color.fromARGB(255, 82, 2, 2).withOpacity(0.8)),
+        ),
+
+        //* comprobar si es un dispositivo android o ios
+        onPressed: () => Platform.isIOS
+            ? displayDialogIOS(context)
+            : displayDialogAndroid(context),
+        child: const Text(
+          "Eliminar cuenta",
+          style: TextStyle(color: AppTheme.secondaryColor),
+        ));
   }
 }
 

@@ -97,7 +97,6 @@ class _Form extends StatelessWidget {
                 suffixIcon: Icons.lock_outline,
                 onChange: (value) => signUpFormProvider.password = value,
                 validator: (value) {
-                  //TODO: Implementar una mejor validación
                   return (value != null && value.length >= 6)
                       ? null
                       : 'La contraseña debe tener al menos 6 caracteres';
@@ -115,11 +114,13 @@ class _Form extends StatelessWidget {
                 suffixIcon: Icons.lock_outline,
                 onChange: (value) => signUpFormProvider.repeatPassword = value,
                 validator: (value) {
-                  //TODO: Implementar una mejor validación
+                  if (value == null) return 'Campo requerido';
+                  if (value.isEmpty) return 'Campo requerido';
 
-                  return (identical(value, signUpFormProvider.repeatPassword))
-                      ? null
-                      : 'Las contraseñas no coinciden';
+                  if (!(value == signUpFormProvider.password)) {
+                    return 'Las contraseñas no coinciden';
+                  }
+                  return null;
                 },
               ),
               const SizedBox(
@@ -145,7 +146,8 @@ class _Form extends StatelessWidget {
                             Navigator.pushReplacementNamed(context, 'login');
                           } else {
                             //* error al registrar el usuario
-                            NotificationsService.showSnackbar(errorMessage, Colors.red);
+                            NotificationsService.showSnackbar(
+                                errorMessage, Colors.red);
                             print(errorMessage);
                           }
                         },
