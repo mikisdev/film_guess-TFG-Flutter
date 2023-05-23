@@ -101,9 +101,12 @@ class MovieService extends ChangeNotifier {
       randomIndex = 1 + Random().nextInt(movies.length);
 
       movie = movies[randomIndex - 1];
-    } while (movie.posterPath == null);
+    } while (movie.posterPath == null ||
+        movie.originalLanguage == 'cn' ||
+        movie.originalLanguage == 'ko' ||
+        movie.originalLanguage == 'it');
 
-    print('RANDOM ${movie.title}');
+    print('RANDOM ${movie.title} ${movie.originalLanguage}');
 
     return movie;
   }
